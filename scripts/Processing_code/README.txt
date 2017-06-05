@@ -1,12 +1,11 @@
-1. runNormalization.m - read data, find beads, interpolate signal, remove beads
-. Make sure that the 'filenames' 
-and 'prefixes' match the files you want to process (prefixes includes the filename without .FCS). Also, make 
-sure that the directories for the files you're processing are set in lines 69 and 71.
-2. readData.m - loads normalized data files, applies arcSin transform. Make sure the filenames here work as well.
-You should follow the pattern given (make sure that the argument in strcat ends in "_standard_0_normalized.fcs".
-3. populateIntercalationIntervals.m - plots DNA1 vs DNA2, allows you to draw single cell gate
- by drawing a box.
-4. runProcess.m - isolate single-nucleated events based on gates from step 3, isolate living cells using cisplatin 
-threshold. You'll need to set this threshold for each file in line 34.
+Code for preprocessing fcs files for cytof data. See cytofPipelineExample.m for an example of how to run the various scripts and more details on the processes.
 
-5. readProcessedData.m - You can run this to read in the processed data into matlab.  You'll need to change the filenames.
+The exact order for processing may vary from dataset to dataset. However, the general process should be as follows:
+
+1. Do bead normalization (runNormalization.m)
+2. Perform arcsin transform (readNormalizedData.m)
+3. If a spike-in sample has been included for normalizing between samples, then the spike-in normalization should probably happen here. Right now, the code uses a linear method (linearNormSpikein.m). For immune cells (and other cells?), it can also just be useful to gate using CD45  to get rid of debris.
+4. Filter out doublets using DNA1 and DNA2.
+5. Filter for live/dead cells using Cisplatin.
+
+There are a few other functions that read or save data from or into fcs files. See cytofPipelineExample.m for more details.
