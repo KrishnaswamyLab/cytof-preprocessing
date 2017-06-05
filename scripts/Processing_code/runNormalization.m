@@ -1,24 +1,36 @@
 function prefixes = runNormalization(fcs_directory)
+% Performs bead normalization on ALL fcs files in fcs_directory and normalizes all files to the same level.
 
+% Add the paths
 addpath('scripts/Normalization/Source');
 addpath('scripts/Infrastructure/Source');
 addpath('scripts/export_fig')
+
+% Add the appropriate output folders if they do not exist
+plotOutputFolder='PlotsNormalization';
+dataOutputFolder='Normalized';
+if (~isdir(plotOutputFolder))
+    mkdir(plotOutputFolder);
+end
+
+if (~isdir(dataOutputFolder))
+    mkdir(dataOutputFolder);
+end
 
 % Runs normalization on fcs files located in a specified folder
 filenames = dir(fullfile(fcs_directory, '*.fcs'));
 prefixes = cell(length(filenames));
 for i=1:length(filenames)
-    prefix = split(filenames(i).name, '.');
-    prefix = prefix{1};
+    prefix=filenames(i).name(1:end-4);
     prefixes{i} = prefix;
 end
 
 for i=1:size(prefixes)
     options = OptionsNormalization();
     options.emitPlots = true;
-    options.plotOutputFolder = 'PlotsNormalization';
+    options.plotOutputFolder = plotOutputFolder;
     options.emitNormalizedData = true;
-    options.dataOutputFolder = 'Normalized';
+    options.dataOutputFolder = dataOutputFolder;
     options.expId = '0';
 %     options.method = 'splorm';
     options.method='standard';
@@ -42,14 +54,6 @@ for i=1:length(filenames)
     allBeadValues = [ allBeadValues ; data{i}.beadValues ];
 end
 beadMedianOverall = median(allBeadValues);
-
-if (~isdir(options.plotOutputFolder))
-    mkdir(options.plotOutputFolder);
-end
-
-if (~isdir(options.dataOutputFolder))
-    mkdir(options.dataOutputFolder);
-end
 
 for i=1:length(filenames)
     data{i}.options.beadMedians = beadMedianOverall;
