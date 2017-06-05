@@ -26,10 +26,10 @@ prefixes=runNormalization(datafolder);
 % (all?) immune cells as cells should be high in cd45.
 
 disp('Gate for the SAMPLE data')
-dataSample=gateData(data,experiments,'Y89Di','Cd112Di');
+dataSample=gateData(data,experiments,'Y89Di','Cd114Di');
 
 disp('Gate for the SPIKE-IN data')
-dataSpike=gateData(data,experiments,'Y89Di','Cd112Di');
+dataSpike=gateData(data,experiments,'Y89Di','Cd114Di');
 
 % Linear normalization
 data=linearNormSpikein(dataSample,dataSpike,experiments,[]);
