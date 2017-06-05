@@ -4,6 +4,11 @@ function saveProcessedData(data,experiments,file_suffix)
 
 % Written by Kevin Moon, June 2017
 
+
+if (~isdir('ProcessedData'))
+    mkdir('ProcessedData');
+end
+
 if isempty(file_suffix)
     file_suffix='_processed';
 end
