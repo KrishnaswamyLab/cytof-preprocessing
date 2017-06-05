@@ -1,6 +1,9 @@
 function prefixes = runNormalization(fcs_directory)
 % Performs bead normalization on ALL fcs files in fcs_directory and normalizes all files to the same level.
 
+% Based on code written by Tobias Welp
+% Modified by Krishnan Srinivasan and Kevin Moon, June 2017
+
 % Add the paths
 addpath('scripts/Normalization/Source');
 addpath('scripts/Infrastructure/Source');
