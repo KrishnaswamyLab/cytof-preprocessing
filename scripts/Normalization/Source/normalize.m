@@ -26,6 +26,9 @@ function [ data ] = normalize(data, varargin)
     if (data.options.emitPlots)
         emitBeadVsDNA1Plots(data, true);
     end
+    
+    disp('Standard deviation of beads before normalization:') 
+    disp(num2str(std(data.beadValues)))
 
     data = data.smoothBeadValues();
 
@@ -36,6 +39,9 @@ function [ data ] = normalize(data, varargin)
     data = data.populateValidationValues();
 
     data = data.applyNormalization();
+    
+    disp('Standard deviation of beads after normalization')
+    disp(num2str(std(data.beadValues)))
 
     if (data.options.emitPlots)
         emitTimeVsBeadValuesPlot(data, false);
